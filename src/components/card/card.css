@@ -1,0 +1,33 @@
+.base-card {
+  width: 800px;
+  margin: 20px 0px;
+}
+
+.card-container {
+  display: flex;
+  gap: 50px;
+}
+
+.user-image {
+  width: 200px;
+  border-radius: 10px;
+}
+p {
+  margin: 10px 0px;
+}
+@media only screen and (max-width: 600px) {
+  .card-container {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .base-card {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .base-card {
+    width: 100%;
+  }
+}
