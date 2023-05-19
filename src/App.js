@@ -12,13 +12,23 @@ function App() {
 
   const fetchUsers = async () => {
     setIsLoading(true);
-    const res = await fetch("https://jsonplaceholder.typicode.com/users").then(
-      (data) => data.json()
-    );
-    setUsers(res);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data.");
+      }
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      // Handle error state here
+      console.error(error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+    }
   };
 
   useEffect(() => {
@@ -27,14 +37,16 @@ function App() {
 
   return (
     <div className="App">
-      {!isLoading && users.length ? (
-        <>
-          {users.map((user) => (
-            <CustomCard key={user.id} user={user} />
-          ))}
-        </>
-      ) : (
+      {isLoading ? (
         <Spinner />
+      ) : (
+        <>
+          {users.length > 0 ? (
+            users.map((user) => <CustomCard key={user.id} user={user} />)
+          ) : (
+            <p>No users found.</p>
+          )}
+        </>
       )}
     </div>
   );
